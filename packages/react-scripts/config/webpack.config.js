@@ -608,6 +608,30 @@ module.exports = function (webpackEnv) {
                 name: 'static/media/[name].[hash:8].[ext]',
               },
             },
+            {
+              test: /\.hbs$/,
+              loader: require.resolve('handlebars-loader'),
+              options: {
+                helperDirs: [
+                  path.join(paths.appSrc, 'panel-templates', '_helpers')
+                ],
+                partialDirs: [
+                  path.join(paths.appSrc, 'panel-templates', '_partials')
+                ]
+              }
+            },
+            {
+              test: /\.svg$/,
+              use: [
+                {
+                  loader: require.resolve('@adsk/bim360-svg-store-transform-loader')
+                },
+                {
+                  loader: require.resolve('svgo-loader'),
+                  options: require('./svgo.plugins.js')
+                }
+              ]
+            },
             // ** STOP ** Are you adding a new loader?
             // Make sure to add the new loader(s) before the "file" loader.
           ],
